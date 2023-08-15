@@ -105,13 +105,13 @@
       <q-btn
         label="Adicionar Contato"
         color="primary"
-        @click="addContact = true"
+        @click="addContactPopup = true"
       />
       <q-dialog
-        v-model="addContact"
+        v-model="addContactPopup"
         persistent
       >
-        <q-card style="min-width: 500px">
+        <q-card style="min-width: 350px">
           <q-card-section>
             <div class="text-h6">
               Contato
@@ -198,7 +198,7 @@
               v-close-popup
               flat
               icon="mdi-content-save"
-              @click="newContact"
+              @click="addContact"
             />
           </q-card-actions>
         </q-card>
@@ -249,22 +249,14 @@ export default {
       contacts: ref([])
     })
     const columns = [
-      {
-        name: 'title',
-        required: true,
-        label: 'Título',
-        align: 'left',
-        field: row => company.value.contacts.title,
-        formmat: val => `${val}`,
-        sortable: true
-      },
+
       {
         name: 'name',
         required: true,
         label: 'Nome',
         align: 'left',
-        field: row => company.value.contacts.name,
-        formmat: val => `${val}`,
+        field: company.value.contacts.name,
+        // format: val => `${val}`,
         sortable: true
       },
       {
@@ -272,8 +264,13 @@ export default {
         required: true,
         label: 'Sobrenome',
         align: 'left',
-        field: row => company.value.contacts.surname,
-        formmat: val => `${val}`,
+        sortable: true
+      },
+      {
+        name: 'title',
+        required: true,
+        label: 'Título',
+        align: 'left',
         sortable: true
       },
       {
@@ -281,8 +278,6 @@ export default {
         required: true,
         label: 'Telefone',
         align: 'left',
-        field: row => company.value.contacts.phone,
-        formmat: val => `${val}`,
         sortable: true
       },
       {
@@ -290,8 +285,6 @@ export default {
         required: true,
         label: 'Celular',
         align: 'left',
-        field: row => company.value.contacts.mobile,
-        formmat: val => `${val}`,
         sortable: true
       },
       {
@@ -299,8 +292,6 @@ export default {
         required: true,
         label: 'E-Mail',
         align: 'left',
-        field: row => company.value.contacts.email,
-        formmat: val => `${val}`,
         sortable: true
       },
       {
@@ -308,13 +299,11 @@ export default {
         required: true,
         label: 'Departamento',
         align: 'left',
-        field: row => company.value.contacts.department,
-        formmat: val => `${val}`,
         sortable: true
       }
     ]
     return {
-      addContact: ref(false),
+      addContactPopup: ref(false),
       company,
       columns,
       newContact: ref({}),
@@ -324,10 +313,9 @@ export default {
       })
     }
   },
-  // name: 'PageName',
 
   methods: {
-    adicionarContato () {
+    addContact () {
       this.company.contacts.push({
         title: this.newContact.title,
         name: this.newContact.name,
@@ -337,7 +325,7 @@ export default {
         mobile: this.newContact.mobile,
         email: this.newContact.email
       })
-      console.log(this.company.contacts[0])
+      console.log(this.company.contacts)
     },
     getCompany () {
       // console.log(data)
